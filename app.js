@@ -462,6 +462,39 @@ habitList.addEventListener('dragend', (e) => {
     }
 });
 
+// Mobile Sort Logic
+window.moveHabit = function(id, direction) {
+    if (!isAllFiltersOff()) {
+        showToast("フィルター中は並び替えできません", "error");
+        return;
+    }
+    
+    const habit = habits.find(h => h.id == id);
+    if(!habit) return;
+    
+    const routine = habit.routine || 'anytime';
+    const sameRoutineHabits = habits.filter(h => (h.routine || 'anytime') === routine);
+    
+    const subIndex = sameRoutineHabits.findIndex(h => h.id == id);
+    
+    if (direction === -1 && subIndex > 0) {
+        swapHabits(id, sameRoutineHabits[subIndex - 1].id);
+    } else if (direction === 1 && subIndex < sameRoutineHabits.length - 1) {
+        swapHabits(id, sameRoutineHabits[subIndex + 1].id);
+    }
+};
+
+function swapHabits(id1, id2) {
+    const idx1 = habits.findIndex(h => h.id == id1);
+    const idx2 = habits.findIndex(h => h.id == id2);
+    
+    const temp = habits[idx1];
+    habits[idx1] = habits[idx2];
+    habits[idx2] = temp;
+    
+    saveData();
+    render();
+}
 
 // Interactions: Form
 addHabitForm.addEventListener('submit', (e) => {
@@ -605,7 +638,7 @@ saveNoteBtn.addEventListener('click', () => {
         }
         
         saveData();
-        noteModal.classList.add('hidden');
+        noteModal.classList.hidden = true;
         
         // Refresh calendar if open
         if(!historyModal.classList.contains('hidden') && currentHistoryHabitId === habit.id) {
@@ -722,6 +755,10 @@ function render() {
                     li.innerHTML = `
                         <div class="habit-main-row">
                             <div class="habit-info-group">
+                                <div class="habit-sort-controls">
+                                    <button class="sort-btn" onclick="moveHabit('${habit.id}', -1)" title="上に移動"><i class="fa-solid fa-chevron-up"></i></button>
+                                    <button class="sort-btn" onclick="moveHabit('${habit.id}', 1)" title="下に移動"><i class="fa-solid fa-chevron-down"></i></button>
+                                </div>
                                 <div class="counter-ui">
                                     <button class="btn-minus" onclick="decrementHabit(event, '${habit.id}')" title="カウントを減らす">
                                         <i class="fa-solid fa-minus"></i>
