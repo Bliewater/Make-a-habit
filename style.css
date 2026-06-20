@@ -158,7 +158,6 @@ header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; backgrou
 .checkbox-label { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-size: 0.85rem; color: var(--danger); font-weight: 600;}
 .adv-filter-actions { display: flex; align-items: center; justify-content: center; }
 .toggle-advanced-btn { margin-left: auto; }
-@media (max-width: 600px) { .toggle-advanced-btn { margin-left: 0; } }
 
 /* Habit List */
 .habit-list-container { padding: 1.5rem; }
@@ -208,9 +207,6 @@ header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; backgrou
 
 .habit-actions { display: flex; gap: 0.3rem; opacity: 0; transition: opacity 0.3s ease; flex-wrap: wrap; justify-content: flex-end;}
 .habit-item:hover .habit-actions { opacity: 1; }
-@media (max-width: 600px) { 
-    .habit-actions { opacity: 1; } 
-}
 
 .btn-icon { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.5rem; border-radius: 8px; transition: all 0.2s ease; }
 .btn-icon:hover { background: var(--item-bg-hover); color: var(--text-main); }
@@ -260,7 +256,6 @@ header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; backgrou
 .dashboard-card { background: var(--item-bg); border: 1px solid var(--glass-border); padding: 1.5rem; border-radius: 16px; }
 .dashboard-card.full-width { grid-column: 1 / -1; }
 .dashboard-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-muted); }
-@media (max-width: 600px) { .dashboard-grid { grid-template-columns: 1fr; } .dashboard-card.full-width { grid-column: 1; } }
 
 /* Badges System */
 .badges-container { display: flex; flex-wrap: wrap; gap: 1rem; }
@@ -319,3 +314,37 @@ header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; backgrou
 .rank-info { flex: 1; display: flex; flex-direction: column; }
 .rank-name { font-weight: 600; font-size: 1.05rem; }
 .rank-streak { font-size: 0.85rem; color: var(--success); font-weight: 600;}
+
+/* Mobile Responsive Fixes */
+@media (max-width: 600px) { 
+    .header-top { flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
+    .header-actions { justify-content: center; width: 100%; flex-direction: column; gap: 0.5rem; }
+    #open-dashboard-btn { width: 100%; }
+    .theme-selector-container { width: 100%; justify-content: center; }
+    
+    .level-system { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+    .stats { width: 100%; justify-content: space-around; gap: 1rem; }
+    
+    .filters { justify-content: center; }
+    .toggle-advanced-btn { margin-left: 0; width: 100%; margin-top: 0.5rem; }
+    
+    .habit-main-row { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .habit-info-group { width: 100%; }
+    .habit-name-wrapper { flex: 1; word-break: break-word; }
+    
+    .habit-actions { 
+        opacity: 1; width: 100%; justify-content: space-around; 
+        padding-top: 0.8rem; margin-top: 0.5rem; 
+        border-top: 1px dashed var(--glass-border); 
+    } 
+    .btn-icon { flex: 1; display: flex; justify-content: center; }
+    
+    .habit-meta-row { margin-left: 0; flex-direction: column; align-items: flex-start; gap: 0.5rem; margin-top: 0.5rem; }
+    
+    .dashboard-grid { grid-template-columns: 1fr; } 
+    .dashboard-card.full-width { grid-column: 1; } 
+    
+    .input-group { flex-direction: column; }
+    #habit-input, #habit-target, .form-select { width: 100%; max-width: 100%; }
+}
+
