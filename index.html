@@ -65,8 +65,12 @@
         <section class="add-habit glass-panel">
             <form id="add-habit-form">
                 <div class="input-group">
-                    <input type="text" id="habit-input" placeholder="新しい習慣を追加..." required autocomplete="off">
-                    <input type="number" id="habit-target" placeholder="回数" min="1" value="1" required title="1日の目標回数" style="max-width: 80px;">
+                    <input type="text" id="habit-input" class="form-input" placeholder="新しい習慣を追加..." required autocomplete="off">
+                    
+                    <div class="target-wrapper">
+                        <span class="target-label">目標回数</span>
+                        <input type="number" id="habit-target" class="form-input target-inner" min="1" value="1" required title="1日の目標回数">
+                    </div>
                     
                     <select id="habit-category" class="form-select">
                         <option value="health">💪 健康</option>
