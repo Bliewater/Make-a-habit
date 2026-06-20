@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make a Habit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body data-theme="white">
+    <div class="background-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <main class="container">
+        <header class="glass-panel header-panel">
+            <div class="header-top">
+                <h1>Daily Habits</h1>
+                <div class="header-actions">
+                    <button id="open-dashboard-btn" class="btn-icon" title="ダッシュボードを開く"><i class="fa-solid fa-chart-pie"></i> 分析</button>
+                    <div class="theme-selector-container">
+                        <i class="fa-solid fa-palette"></i>
+                        <select id="theme-selector">
+                            <option value="white">White</option>
+                            <option value="black">Black</option>
+                            <option value="modern">Modern (Glass)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level & EXP System -->
+            <div class="level-system">
+                <div class="level-icon-wrapper">
+                    <i class="fa-solid fa-seedling" id="plant-icon"></i>
+                </div>
+                <div class="level-details">
+                    <div class="level-text">
+                        <span id="level-display">Lv. 1</span>
+                        <span id="exp-text">0 / 100 EXP</span>
+                    </div>
+                    <div class="exp-bar-bg">
+                        <div class="exp-bar-fill" id="exp-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="completed-count">0</span>
+                    <span class="stat-label">完了タスク</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="streak-count">0</span>
+                    <span class="stat-label">継続日数</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="add-habit glass-panel">
+            <form id="add-habit-form">
+                <div class="input-group">
+                    <input type="text" id="habit-input" placeholder="新しい習慣を追加..." required autocomplete="off">
+                    <input type="number" id="habit-target" placeholder="回数" min="1" value="1" required title="1日の目標回数" style="max-width: 80px;">
+                    
+                    <select id="habit-category" class="form-select">
+                        <option value="health">💪 健康</option>
+                        <option value="study">📚 学習</option>
+                        <option value="work">💼 仕事</option>
+                        <option value="hobby">🎨 趣味</option>
+                        <option value="chores">🧹 家事</option>
+                        <option value="other" selected>🌟 その他</option>
+                    </select>
+
+                    <select id="habit-routine" class="form-select">
+                        <option value="anytime" selected>🌟 いつでも</option>
+                        <option value="morning">☀️ 朝ルーティン</option>
+                        <option value="afternoon">☕ 昼ルーティン</option>
+                        <option value="evening">🌙 夜ルーティン</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 10px; width: 100%;">
+                    <i class="fa-solid fa-plus"></i> 追加
+                </button>
+            </form>
+        </section>
+
+        <section class="habit-list-container glass-panel">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">すべて</button>
+                <button class="filter-btn" data-filter="incomplete">未完了</button>
+                <button class="filter-btn" data-filter="completed">完了</button>
+                <button class="filter-btn toggle-advanced-btn" id="toggle-advanced-btn"><i class="fa-solid fa-sliders"></i> 詳細</button>
+            </div>
+
+            <div class="advanced-filters-panel hidden" id="advanced-filters-panel">
+                <div class="adv-filter-group">
+                    <label>カテゴリー</label>
+                    <select id="filter-category" class="form-select">
+                        <option value="all">すべて</option>
+                        <option value="health">💪 健康</option>
+                        <option value="study">📚 学習</option>
+                        <option value="work">💼 仕事</option>
+                        <option value="hobby">🎨 趣味</option>
+                        <option value="chores">🧹 家事</option>
+                        <option value="other">🌟 その他</option>
+                    </select>
+                </div>
+                <div class="adv-filter-group">
+                    <label>時間帯</label>
+                    <select id="filter-routine" class="form-select">
+                        <option value="all">すべて</option>
+                        <option value="morning">☀️ 朝ルーティン</option>
+                        <option value="afternoon">☕ 昼ルーティン</option>
+                        <option value="evening">🌙 夜ルーティン</option>
+                        <option value="anytime">🌟 いつでも</option>
+                    </select>
+                </div>
+                <div class="adv-filter-group">
+                    <label>検索</label>
+                    <input type="text" id="filter-search" class="form-input" placeholder="習慣名で検索...">
+                </div>
+                <div class="adv-filter-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="filter-warning">
+                        ⚠️ 警告中のみ
+                    </label>
+                </div>
+                <div class="adv-filter-actions">
+                    <button id="reset-filters-btn" class="btn-icon" title="条件をリセット"><i class="fa-solid fa-rotate-right"></i></button>
+                </div>
+            </div>
+
+            <ul id="habit-list">
+                <!-- Habits will be rendered here by JS -->
+            </ul>
+        </section>
+    </main>
+
+    <!-- History Modal -->
+    <div id="history-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2 id="modal-habit-title">習慣の名前</h2>
+                <button class="close-btn" id="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="calendar-header">
+                    <button id="prev-month"><i class="fa-solid fa-chevron-left"></i></button>
+                    <h3 id="calendar-month-year">2023年 10月</h3>
+                    <button id="next-month"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Calendar cells rendered by JS -->
+                </div>
+                <div id="calendar-note-display" class="calendar-note-display hidden">
+                    <h4 id="calendar-note-date">日付</h4>
+                    <p id="calendar-note-text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Note Modal -->
+    <div id="note-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2>📝 今日のメモ</h2>
+                <button class="close-btn" id="close-note-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <p id="note-habit-name" style="margin-bottom: 1rem; font-weight: 500;"></p>
+                <textarea id="note-textarea" class="form-textarea" rows="4" placeholder="今日の感想や気づきをメモしましょう..."></textarea>
+                <button id="save-note-btn" class="btn-primary" style="margin-top: 1rem; width: 100%;">保存する</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Habit Modal -->
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2>✏️ 習慣の編集</h2>
+                <button class="close-btn" id="close-edit-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" style="display:flex; flex-direction:column; gap:1rem;">
+                <input type="hidden" id="edit-habit-id">
+                
+                <div>
+                    <label style="font-size: 0.85rem; color: var(--text-muted);">習慣の名前</label>
+                    <input type="text" id="edit-habit-name" class="form-input" style="width: 100%;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; color: var(--text-muted);">1日の目標回数</label>
+                    <input type="number" id="edit-habit-target" min="1" class="form-input" style="width: 100%;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; color: var(--text-muted);">カテゴリー</label>
+                    <select id="edit-habit-category" class="form-select" style="width: 100%;">
+                        <option value="health">💪 健康</option>
+                        <option value="study">📚 学習</option>
+                        <option value="work">💼 仕事</option>
+                        <option value="hobby">🎨 趣味</option>
+                        <option value="chores">🧹 家事</option>
+                        <option value="other">🌟 その他</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; color: var(--text-muted);">時間帯（ルーティン）</label>
+                    <select id="edit-habit-routine" class="form-select" style="width: 100%;">
+                        <option value="anytime">🌟 いつでも</option>
+                        <option value="morning">☀️ 朝のルーティン</option>
+                        <option value="afternoon">☕ 昼のルーティン</option>
+                        <option value="evening">🌙 夜のルーティン</option>
+                    </select>
+                </div>
+                
+                <button id="save-edit-btn" class="btn-primary" style="margin-top: 0.5rem; width: 100%;">更新する</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Modal -->
+    <div id="dashboard-modal" class="modal hidden">
+        <div class="modal-content glass-panel dashboard-content">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-chart-line"></i> アナリティクス</h2>
+                <button class="close-btn" id="close-dashboard"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="dashboard-grid">
+                
+                <!-- Badges -->
+                <div class="dashboard-card full-width">
+                    <h3>🏆 獲得バッジ</h3>
+                    <div class="badges-container" id="badges-container">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Heatmap -->
+                <div class="dashboard-card full-width">
+                    <h3>月間ヒートマップ（過去91日）</h3>
+                    <div class="heatmap-container" id="heatmap-grid"></div>
+                </div>
+                
+                <!-- Weekly -->
+                <div class="dashboard-card">
+                    <h3>今週の達成数</h3>
+                    <div class="bar-chart-container" id="weekly-chart"></div>
+                </div>
+                
+                <!-- Category Breakdown -->
+                <div class="dashboard-card">
+                    <h3>カテゴリー別割合</h3>
+                    <div class="category-breakdown-container" id="category-chart"></div>
+                </div>
+                
+                <!-- Ranking -->
+                <div class="dashboard-card full-width">
+                    <h3>継続ランキング トップ3</h3>
+                    <ul class="ranking-list" id="ranking-list"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
