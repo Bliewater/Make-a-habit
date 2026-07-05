@@ -133,6 +133,10 @@ header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; backgrou
 .target-label { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; font-weight: 600; }
 .target-inner { border: none !important; background: transparent !important; padding: 1rem 0 !important; box-shadow: none !important; text-align: center; width: 100%; outline: none;}
 
+/* FAB Button */
+.fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: var(--accent-gradient); color: white; font-size: 1.5rem; border: none; box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4); cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; z-index: 90; }
+.fab:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(79, 172, 254, 0.6); }
+
 /* Filters */
 .filters { display: flex; gap: 0.5rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--glass-border); flex-wrap: wrap; align-items: center;}
 .filter-btn { background: var(--item-bg); border: 1px solid var(--glass-border); color: var(--text-muted); padding: 0.5rem 1rem; border-radius: 20px; font-family: inherit; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; }
@@ -195,15 +199,15 @@ header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; backgrou
 .sort-btn:hover { opacity: 1; background: var(--glass-border); color: var(--text-main); }
 .habit-item.dragging .habit-sort-controls { opacity: 0; }
 
-/* Categories Tags */
+/* Categories Tags - Compact Version */
 .habit-name-wrapper { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem;}
-.category-tag { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-.cat-health { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
-.cat-study { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
-.cat-work { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-.cat-hobby { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
-.cat-chores { background: rgba(20, 184, 166, 0.15); color: #14b8a6; }
-.cat-other { background: rgba(156, 163, 175, 0.15); color: #9ca3af; }
+.category-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.cat-health { background: #ef4444; box-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
+.cat-study { background: #3b82f6; box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+.cat-work { background: #f59e0b; box-shadow: 0 0 5px rgba(245, 158, 11, 0.5); }
+.cat-hobby { background: #a855f7; box-shadow: 0 0 5px rgba(168, 85, 247, 0.5); }
+.cat-chores { background: #14b8a6; box-shadow: 0 0 5px rgba(20, 184, 166, 0.5); }
+.cat-other { background: #9ca3af; box-shadow: 0 0 5px rgba(156, 163, 175, 0.5); }
 
 /* Counter UI */
 .habit-info-group { display: flex; align-items: center; gap: 1rem; flex: 1; }
@@ -218,10 +222,9 @@ header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; backgrou
 .habit-name { font-size: 1.1rem; font-weight: 500; transition: all 0.3s ease; cursor: pointer; }
 .habit-item.completed .habit-name { color: var(--text-muted); text-decoration: line-through; }
 
-.habit-actions { display: flex; gap: 0.3rem; opacity: 0; transition: opacity 0.3s ease; flex-wrap: wrap; justify-content: flex-end;}
-.habit-item:hover .habit-actions { opacity: 1; }
+.habit-actions { display: flex; gap: 0.3rem; transition: opacity 0.3s ease; align-items: center;}
 
-.btn-icon { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.5rem; border-radius: 8px; transition: all 0.2s ease; }
+.btn-icon { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.5rem; border-radius: 8px; transition: all 0.2s ease; font-size: 1.1rem;}
 .btn-icon:hover { background: var(--item-bg-hover); color: var(--text-main); }
 .btn-icon.delete:hover { color: var(--danger); background: rgba(239, 68, 68, 0.1); }
 .btn-icon.history:hover, .btn-icon.edit:hover, .btn-icon.note:hover { color: #4facfe; background: rgba(79, 172, 254, 0.1); }
@@ -238,12 +241,25 @@ header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; backgrou
 /* Modal General */
 .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 100; opacity: 1; transition: opacity 0.3s ease; }
 .modal.hidden { opacity: 0; pointer-events: none; }
-.modal-content { width: 90%; max-width: 400px; padding: 1.5rem; transform: scale(1); transition: transform 0.3s ease; }
+.modal-content { width: 90%; max-width: 400px; padding: 1.5rem; transform: scale(1); transition: transform 0.3s ease; max-height: 90vh; overflow-y: auto; }
 .modal.hidden .modal-content { transform: scale(0.9); }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
 .modal-header h2 { font-size: 1.5rem; font-weight: 600; }
 .close-btn { background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; transition: color 0.2s; }
 .close-btn:hover { color: var(--danger); }
+
+/* Bottom Sheet */
+.bottom-sheet-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); backdrop-filter: blur(4px); z-index: 95; opacity: 1; transition: opacity 0.3s ease; }
+.bottom-sheet-overlay.hidden { opacity: 0; pointer-events: none; }
+.bottom-sheet { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--glass-bg); backdrop-filter: blur(16px); border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 1.5rem 1.5rem 2.5rem 1.5rem; z-index: 100; transform: translateY(0); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 -10px 40px rgba(0,0,0,0.2); }
+.bottom-sheet.hidden { transform: translateY(100%); }
+.bottom-sheet-handle { width: 40px; height: 5px; background: var(--glass-border); border-radius: 10px; margin: 0 auto 1.5rem auto; }
+.bottom-sheet-header h3 { text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem; }
+.bottom-sheet-actions { display: flex; flex-direction: column; gap: 0.5rem; }
+.sheet-btn { background: var(--item-bg); border: 1px solid var(--glass-border); padding: 1rem; border-radius: 12px; color: var(--text-main); font-size: 1rem; display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: background 0.2s; text-align: left; }
+.sheet-btn:hover { background: var(--item-bg-hover); }
+.sheet-btn i { font-size: 1.2rem; width: 24px; text-align: center; }
+.sheet-btn.delete { color: var(--danger); }
 
 /* Calendar Modal */
 .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
@@ -347,12 +363,7 @@ header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; backgrou
     .habit-info-group { width: 100%; }
     .habit-name-wrapper { flex: 1; word-break: break-word; }
     
-    .habit-actions { 
-        opacity: 1; width: 100%; justify-content: space-around; 
-        padding-top: 0.8rem; margin-top: 0.5rem; 
-        border-top: 1px dashed var(--glass-border); 
-    } 
-    .btn-icon { flex: 1; display: flex; justify-content: center; }
+    .habit-actions { width: 100%; justify-content: flex-end; } 
     
     .habit-meta-row { margin-left: 0; flex-direction: column; align-items: flex-start; gap: 0.5rem; margin-top: 0.5rem; }
     

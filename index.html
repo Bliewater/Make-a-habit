@@ -62,37 +62,49 @@
             </div>
         </header>
 
-        <section class="add-habit glass-panel">
-            <form id="add-habit-form">
-                <div class="input-group">
-                    <input type="text" id="habit-input" class="form-input" placeholder="新しい習慣を追加..." required autocomplete="off">
-                    
-                    <div class="target-wrapper">
-                        <span class="target-label">目標回数</span>
-                        <input type="number" id="habit-target" class="form-input target-inner" min="1" value="1" required title="1日の目標回数">
-                    </div>
-                    
-                    <select id="habit-category" class="form-select">
-                        <option value="health">💪 健康</option>
-                        <option value="study">📚 学習</option>
-                        <option value="work">💼 仕事</option>
-                        <option value="hobby">🎨 趣味</option>
-                        <option value="chores">🧹 家事</option>
-                        <option value="other" selected>🌟 その他</option>
-                    </select>
+    <!-- FAB for Adding Habit -->
+    <button id="fab-add" class="fab" title="新しい習慣を追加"><i class="fa-solid fa-plus"></i></button>
 
-                    <select id="habit-routine" class="form-select">
-                        <option value="anytime" selected>🌟 いつでも</option>
-                        <option value="morning">☀️ 朝ルーティン</option>
-                        <option value="afternoon">☕ 昼ルーティン</option>
-                        <option value="evening">🌙 夜ルーティン</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn-primary" style="margin-top: 10px; width: 100%;">
-                    <i class="fa-solid fa-plus"></i> 追加
-                </button>
-            </form>
-        </section>
+    <!-- Add Habit Modal -->
+    <div id="add-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2>✨ 新しい習慣</h2>
+                <button class="close-btn" id="close-add-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="add-habit-form">
+                    <div class="input-group">
+                        <input type="text" id="habit-input" class="form-input" placeholder="新しい習慣を追加..." required autocomplete="off" style="width: 100%;">
+                        
+                        <div class="target-wrapper" style="width: 100%;">
+                            <span class="target-label">目標回数</span>
+                            <input type="number" id="habit-target" class="form-input target-inner" min="1" value="1" required title="1日の目標回数">
+                        </div>
+                        
+                        <select id="habit-category" class="form-select" style="width: 100%;">
+                            <option value="health">💪 健康</option>
+                            <option value="study">📚 学習</option>
+                            <option value="work">💼 仕事</option>
+                            <option value="hobby">🎨 趣味</option>
+                            <option value="chores">🧹 家事</option>
+                            <option value="other" selected>🌟 その他</option>
+                        </select>
+
+                        <select id="habit-routine" class="form-select" style="width: 100%;">
+                            <option value="anytime" selected>🌟 いつでも</option>
+                            <option value="morning">☀️ 朝ルーティン</option>
+                            <option value="afternoon">☕ 昼ルーティン</option>
+                            <option value="evening">🌙 夜ルーティン</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary" style="margin-top: 15px; width: 100%;">
+                        <i class="fa-solid fa-plus"></i> 追加する
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
         <section class="habit-list-container glass-panel">
             <div class="filters">
@@ -100,6 +112,7 @@
                 <button class="filter-btn" data-filter="incomplete">未完了</button>
                 <button class="filter-btn" data-filter="completed">完了</button>
                 <button class="filter-btn toggle-advanced-btn" id="toggle-advanced-btn"><i class="fa-solid fa-sliders"></i> 詳細</button>
+                <button class="filter-btn toggle-sort-btn" id="toggle-sort-btn" style="margin-left: auto;"><i class="fa-solid fa-sort"></i> 並べ替え</button>
             </div>
 
             <div class="advanced-filters-panel hidden" id="advanced-filters-panel">
@@ -270,6 +283,18 @@
                     <ul class="ranking-list" id="ranking-list"></ul>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Bottom Sheet for Actions -->
+    <div id="bottom-sheet-overlay" class="bottom-sheet-overlay hidden"></div>
+    <div id="bottom-sheet" class="bottom-sheet hidden">
+        <div class="bottom-sheet-handle"></div>
+        <div class="bottom-sheet-header">
+            <h3 id="sheet-habit-title">習慣の名前</h3>
+        </div>
+        <div class="bottom-sheet-actions" id="bottom-sheet-actions">
+            <!-- Buttons injected by JS -->
         </div>
     </div>
 

@@ -14,6 +14,7 @@ function getLogicalToday() {
 
 let calendarDate = getLogicalToday();
 let filterState = { status: 'all', category: 'all', routine: 'all', search: '', warningOnly: false };
+let isSortMode = false;
 let userStats = { level: 1, exp: 0, badges: [] };
 let noteContext = { id: null, dateStr: null }; // For Note Modal
 
@@ -72,6 +73,17 @@ const saveEditBtn = document.getElementById('save-edit-btn');
 
 const toastContainer = document.getElementById('toast-container');
 
+// New UI Elements
+const fabAdd = document.getElementById('fab-add');
+const addModal = document.getElementById('add-modal');
+const closeAddModalBtn = document.getElementById('close-add-modal');
+const toggleSortBtn = document.getElementById('toggle-sort-btn');
+
+const bottomSheet = document.getElementById('bottom-sheet');
+const bottomSheetOverlay = document.getElementById('bottom-sheet-overlay');
+const sheetHabitTitle = document.getElementById('sheet-habit-title');
+const bottomSheetActions = document.getElementById('bottom-sheet-actions');
+
 
 // Badge Definitions
 const BADGE_DEFS = [
@@ -83,6 +95,57 @@ const BADGE_DEFS = [
     { id: 'health_master', icon: '💪', name: '健康マニア', desc: '健康カテゴリを累計20回達成' },
     { id: 'study_master', icon: '📚', name: '勉強の虫', desc: '学習カテゴリを累計20回達成' }
 ];
+
+// Event Listeners for New UI
+fabAdd.addEventListener('click', () => {
+    addModal.classList.remove('hidden');
+    habitInput.focus();
+});
+
+closeAddModalBtn.addEventListener('click', () => {
+    addModal.classList.add('hidden');
+});
+
+toggleSortBtn.addEventListener('click', () => {
+    isSortMode = !isSortMode;
+    toggleSortBtn.classList.toggle('active', isSortMode);
+    render();
+});
+
+bottomSheetOverlay.addEventListener('click', closeBottomSheet);
+document.querySelector('.bottom-sheet-handle').addEventListener('click', closeBottomSheet);
+
+function openBottomSheet(id) {
+    const habit = habits.find(h => h.id == id);
+    if (!habit) return;
+    
+    sheetHabitTitle.textContent = habit.name;
+    const record = getRecord(habit, getTodayString());
+    const hasNote = record.note && record.note.trim() !== '';
+
+    bottomSheetActions.innerHTML = `
+        <button class="sheet-btn" onclick="closeBottomSheet(); openHistory('${habit.id}')">
+            <i class="fa-regular fa-calendar-days" style="color: #4facfe;"></i> 履歴とカレンダー
+        </button>
+        <button class="sheet-btn" onclick="closeBottomSheet(); openNoteModal('${habit.id}')">
+            <i class="${hasNote ? 'fa-solid' : 'fa-regular'} fa-note-sticky" style="color: #f59e0b;"></i> メモを書く
+        </button>
+        <button class="sheet-btn" onclick="closeBottomSheet(); openEditModal('${habit.id}')">
+            <i class="fa-solid fa-pen" style="color: #10b981;"></i> 編集する
+        </button>
+        <button class="sheet-btn delete" onclick="closeBottomSheet(); deleteHabit('${habit.id}')">
+            <i class="fa-solid fa-trash-can"></i> 削除する
+        </button>
+    `;
+
+    bottomSheetOverlay.classList.remove('hidden');
+    bottomSheet.classList.remove('hidden');
+}
+
+function closeBottomSheet() {
+    bottomSheetOverlay.classList.add('hidden');
+    bottomSheet.classList.add('hidden');
+}
 
 // Initialize
 function init() {
@@ -524,7 +587,9 @@ addHabitForm.addEventListener('submit', (e) => {
         });
         habitInput.value = '';
         habitTargetInput.value = '1';
-        saveData();
+        habitCategoryInput.value = 'other';
+        habitRoutineInput.value = 'anytime';
+        addModal.classList.add('hidden');
         render();
     }
 });
@@ -758,15 +823,19 @@ function render() {
                     }
 
                     const catNames = { 'health': '💪 健康', 'study': '📚 学習', 'work': '💼 仕事', 'hobby': '🎨 趣味', 'chores': '🧹 家事', 'other': '🌟 その他' };
-                    const catTag = `<span class="category-tag cat-${habit.category || 'other'}">${catNames[habit.category] || catNames.other}</span>`;
+                    const catTag = `<div class="category-dot cat-${habit.category || 'other'}" title="${catNames[habit.category] || catNames.other}"></div>`;
+                    
+                    const sortControlsHtml = isSortMode ? `
+                        <div class="habit-sort-controls">
+                            <button class="sort-btn" onclick="moveHabit('${habit.id}', -1)" title="上に移動"><i class="fa-solid fa-chevron-up"></i></button>
+                            <button class="sort-btn" onclick="moveHabit('${habit.id}', 1)" title="下に移動"><i class="fa-solid fa-chevron-down"></i></button>
+                        </div>
+                    ` : '';
 
                     li.innerHTML = `
                         <div class="habit-main-row">
                             <div class="habit-info-group">
-                                <div class="habit-sort-controls">
-                                    <button class="sort-btn" onclick="moveHabit('${habit.id}', -1)" title="上に移動"><i class="fa-solid fa-chevron-up"></i></button>
-                                    <button class="sort-btn" onclick="moveHabit('${habit.id}', 1)" title="下に移動"><i class="fa-solid fa-chevron-down"></i></button>
-                                </div>
+                                ${sortControlsHtml}
                                 <div class="counter-ui">
                                     <button class="btn-minus" onclick="decrementHabit(event, '${habit.id}')" title="カウントを減らす">
                                         <i class="fa-solid fa-minus"></i>
@@ -781,24 +850,12 @@ function render() {
                                 </div>
                             </div>
                             <div class="habit-actions">
-                                <button class="btn-icon note" onclick="openNoteModal('${habit.id}')" title="メモを書く">
-                                    <i class="${hasNote ? 'fa-solid' : 'fa-regular'} fa-note-sticky"></i>
-                                </button>
-                                <button class="btn-icon history" onclick="openHistory('${habit.id}')" title="履歴を見る">
-                                    <i class="fa-regular fa-calendar-days"></i>
-                                </button>
-                                <button class="btn-icon edit" onclick="openEditModal('${habit.id}')" title="編集">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-                                <button class="btn-icon delete" onclick="deleteHabit('${habit.id}')" title="削除">
-                                    <i class="fa-solid fa-trash-can"></i>
+                                <button class="btn-icon" onclick="openBottomSheet('${habit.id}')" title="メニュー">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="habit-meta-row">
-                            ${warningHtml}
-                            ${renderMiniGraph(habit)}
-                        </div>
+                        ${warningHtml ? `<div class="habit-meta-row">${warningHtml}</div>` : ''}
                     `;
                     habitList.appendChild(li);
                 });
