@@ -669,7 +669,7 @@ function updateDateDisplay() {
 function renderMiniGraph(habit) {
     let html = `<div class="mini-graph"><span class="mini-graph-label">Last 7 days:</span>`;
     for(let i = 6; i >= 0; i--) {
-        const d = new Date();
+        const d = getLogicalToday();
         d.setDate(d.getDate() - i);
         const dateStr = formatDate(d);
         const isDone = isHabitCompleted(habit, dateStr);
@@ -818,7 +818,7 @@ window.openHistory = function(id) {
     if(habit) {
         currentHistoryHabitId = id;
         modalHabitTitle.textContent = habit.name;
-        calendarDate = new Date(); 
+        calendarDate = getLogicalToday(); 
         calendarNoteDisplay.classList.add('hidden'); // hide note display initially
         renderCalendar();
         historyModal.classList.remove('hidden');
@@ -932,7 +932,7 @@ function renderHeatmap() {
     const daysToRender = 91; // 13 weeks * 7 days
     let dates = [];
     for(let i = daysToRender - 1; i >= 0; i--) {
-        const d = new Date();
+        const d = getLogicalToday();
         d.setDate(d.getDate() - i);
         dates.push(formatDate(d));
     }
@@ -965,7 +965,7 @@ function renderWeeklyChart() {
     
     let weeklyData = [];
     for(let i = 6; i >= 0; i--) {
-        const d = new Date();
+        const d = getLogicalToday();
         d.setDate(d.getDate() - i);
         const dateStr = formatDate(d);
         let count = 0;
