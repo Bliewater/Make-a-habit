@@ -3,7 +3,16 @@ let habits = [];
 let currentStreak = 0;
 let lastLoginDate = null;
 let currentHistoryHabitId = null;
-let calendarDate = new Date();
+
+// 5:00 AM Rollover Logic
+function getLogicalToday() {
+    const now = new Date();
+    // 現在時刻から5時間マイナスする（例: 午前4:59なら前日の23:59として扱う）
+    now.setHours(now.getHours() - 5);
+    return now;
+}
+
+let calendarDate = getLogicalToday();
 let filterState = { status: 'all', category: 'all', routine: 'all', search: '', warningOnly: false };
 let userStats = { level: 1, exp: 0, badges: [] };
 let noteContext = { id: null, dateStr: null }; // For Note Modal
@@ -154,8 +163,7 @@ function saveData() {
 }
 
 function getTodayString() {
-    const today = new Date();
-    return formatDate(today);
+    return formatDate(getLogicalToday());
 }
 
 function formatDate(date) {
@@ -653,9 +661,9 @@ saveNoteBtn.addEventListener('click', () => {
 
 // UI Rendering
 function updateDateDisplay() {
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const dateStr = new Date().toLocaleDateString('ja-JP', options);
-    if (dateDisplay) dateDisplay.textContent = dateStr;
+    const today = getLogicalToday();
+    const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
+    if (dateDisplay) dateDisplay.textContent = today.toLocaleDateString('ja-JP', options);
 }
 
 function renderMiniGraph(habit) {
