@@ -199,15 +199,15 @@ header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; backgrou
 .sort-btn:hover { opacity: 1; background: var(--glass-border); color: var(--text-main); }
 .habit-item.dragging .habit-sort-controls { opacity: 0; }
 
-/* Categories Tags - Compact Version */
+/* Categories Tags */
 .habit-name-wrapper { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem;}
-.category-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
-.cat-health { background: #ef4444; box-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
-.cat-study { background: #3b82f6; box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
-.cat-work { background: #f59e0b; box-shadow: 0 0 5px rgba(245, 158, 11, 0.5); }
-.cat-hobby { background: #a855f7; box-shadow: 0 0 5px rgba(168, 85, 247, 0.5); }
-.cat-chores { background: #14b8a6; box-shadow: 0 0 5px rgba(20, 184, 166, 0.5); }
-.cat-other { background: #9ca3af; box-shadow: 0 0 5px rgba(156, 163, 175, 0.5); }
+.category-tag { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.cat-health { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+.cat-study { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+.cat-work { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+.cat-hobby { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+.cat-chores { background: rgba(20, 184, 166, 0.15); color: #14b8a6; }
+.cat-other { background: rgba(156, 163, 175, 0.15); color: #9ca3af; }
 
 /* Counter UI */
 .habit-info-group { display: flex; align-items: center; gap: 1rem; flex: 1; }

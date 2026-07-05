@@ -823,7 +823,7 @@ function render() {
                     }
 
                     const catNames = { 'health': '💪 健康', 'study': '📚 学習', 'work': '💼 仕事', 'hobby': '🎨 趣味', 'chores': '🧹 家事', 'other': '🌟 その他' };
-                    const catTag = `<div class="category-dot cat-${habit.category || 'other'}" title="${catNames[habit.category] || catNames.other}"></div>`;
+                    const catTag = `<span class="category-tag cat-${habit.category || 'other'}">${catNames[habit.category] || catNames.other}</span>`;
                     
                     const sortControlsHtml = isSortMode ? `
                         <div class="habit-sort-controls">
@@ -855,7 +855,10 @@ function render() {
                                 </button>
                             </div>
                         </div>
-                        ${warningHtml ? `<div class="habit-meta-row">${warningHtml}</div>` : ''}
+                        <div class="habit-meta-row">
+                            ${warningHtml}
+                            ${renderMiniGraph(habit)}
+                        </div>
                     `;
                     habitList.appendChild(li);
                 });
