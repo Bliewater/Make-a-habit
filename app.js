@@ -833,8 +833,8 @@ function render() {
                     ` : '';
 
                     li.innerHTML = `
-                        <div class="habit-main-row">
-                            <div class="habit-info-group">
+                        <div class="habit-main-row" style="flex-direction: column; align-items: stretch; gap: 0.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
                                 ${sortControlsHtml}
                                 <div class="counter-ui">
                                     <button class="btn-minus" onclick="decrementHabit(event, '${habit.id}')" title="カウントを減らす">
@@ -844,15 +844,17 @@ function render() {
                                         ${isCompletedToday ? '<i class="fa-solid fa-check"></i>' : `${record.count} / ${habit.targetCount}`}
                                     </div>
                                 </div>
-                                <div class="habit-name-wrapper" onclick="incrementHabit('${habit.id}')">
-                                    ${catTag}
-                                    <span class="habit-name">${escapeHTML(habit.name)}</span>
-                                </div>
+                                ${catTag}
                             </div>
-                            <div class="habit-actions">
-                                <button class="btn-icon" onclick="openBottomSheet('${habit.id}')" title="メニュー">
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                                </button>
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <div class="habit-name-wrapper" onclick="incrementHabit('${habit.id}')" style="cursor: pointer; flex: 1;">
+                                    <span class="habit-name" style="font-size: 1.15rem; font-weight: 500;">${escapeHTML(habit.name)}</span>
+                                </div>
+                                <div class="habit-actions" style="margin-left: auto;">
+                                    <button class="btn-icon" onclick="openBottomSheet('${habit.id}')" title="メニュー">
+                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div class="habit-meta-row">
