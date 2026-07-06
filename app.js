@@ -833,7 +833,7 @@ function render() {
                     ` : '';
 
                     li.innerHTML = `
-                        <div class="habit-main-row" style="flex-direction: column; align-items: stretch; gap: 0.5rem;">
+                        <div class="habit-main-row" style="flex-direction: column; align-items: stretch; gap: 0.5rem; width: 100%;">
                             <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
                                 ${sortControlsHtml}
                                 <div class="counter-ui">
