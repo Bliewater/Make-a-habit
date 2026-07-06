@@ -363,7 +363,7 @@ header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; backgrou
     .habit-info-group { width: 100%; }
     .habit-name-wrapper { flex: 1; word-break: break-word; }
     
-    .habit-actions { width: 100%; justify-content: flex-end; } 
+    .habit-actions { width: auto; justify-content: flex-end; } 
     
     .habit-meta-row { margin-left: 0; flex-direction: column; align-items: flex-start; gap: 0.5rem; margin-top: 0.5rem; }
     
