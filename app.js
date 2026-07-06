@@ -846,11 +846,11 @@ function render() {
                                 </div>
                                 ${catTag}
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                                <div class="habit-name-wrapper" onclick="incrementHabit('${habit.id}')" style="cursor: pointer; flex: 1;">
-                                    <span class="habit-name" style="font-size: 1.15rem; font-weight: 500;">${escapeHTML(habit.name)}</span>
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 1rem;">
+                                <div onclick="incrementHabit('${habit.id}')" style="cursor: pointer; flex: 1; min-width: 0; word-break: break-word;">
+                                    <span class="habit-name" style="font-size: 1.15rem; font-weight: 600; line-height: 1.4;">${escapeHTML(habit.name)}</span>
                                 </div>
-                                <div class="habit-actions" style="margin-left: auto;">
+                                <div class="habit-actions" style="flex-shrink: 0;">
                                     <button class="btn-icon" onclick="openBottomSheet('${habit.id}')" title="メニュー">
                                         <i class="fa-solid fa-ellipsis-vertical"></i>
                                     </button>
